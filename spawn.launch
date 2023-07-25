@@ -1,0 +1,20 @@
+<launch>
+    <!-- Load the URDF model -->
+    <arg name="urdf_file" default="$(find my_robot)/my_robot/world.launch" />
+    <arg name="robot_name" default="6dof_robotic_arm" />
+  
+    <!-- Load the robot description to parameter server -->
+    <param name="robot_description" command="$(find xacro)/xacro.py $(arg urdf_file)" />
+  
+    <!-- Spawn the robot model in Gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-urdf -model $(arg robot_name) -param robot_description" />
+  
+    <!-- Start the Gazebo simulator -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="paused" value="false" />
+      <arg name="use_sim_time" value="true" />
+      <arg name="gui" value="true" />
+    </include>
+  </launch>
+  
